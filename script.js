@@ -1,4 +1,4 @@
-// Data
+
 const FRIEND_NAME = 'Tanmay';
 const TIMELINE = [
   {
@@ -23,11 +23,10 @@ const TIMELINE = [
   }
 ];
 
-// Set name
+
 const name = document.getElementById('namePlace');
 if(name) name.textContent = FRIEND_NAME;
 
-// Build timeline
 const timeline = document.getElementById('timeline');
 
 function buildTimeline(){
@@ -40,28 +39,28 @@ function buildTimeline(){
     const entry = document.createElement('div');
     entry.className = `entry ${side}`;
 
-    // tape
+  
     const tape = document.createElement('div');
     tape.className = 'tape';
     entry.appendChild(tape);
 
-    // date
+   
     const date = document.createElement('div');
     date.className = 'date';
     date.textContent = item.date;
     entry.appendChild(date);
 
-    // polaroid container
+    
     const pol = document.createElement('div');
     pol.className = 'polaroid';
 
-    // img
+  
     const im = document.createElement('img');
     im.src = item.img;
     im.alt = item.text;
     pol.appendChild(im);
 
-    // caption
+    
     const caption = document.createElement('div');
     caption.className = 'caption';
     caption.textContent = item.text;
@@ -74,7 +73,7 @@ function buildTimeline(){
 
 buildTimeline();
 
-// Confetti Setup
+
 const confettiCanvas = document.getElementById('confettiCanvas');
 let ctx = confettiCanvas.getContext('2d');
 let pieces = [];
@@ -124,14 +123,13 @@ function animate(){
 }
 animate();
 
-// Confetti button
+
 document.getElementById('confettiBtn').addEventListener('click', ()=>{
   for(let i=0;i<16;i++){
     makeConfetti(Math.random()*confettiCanvas.width, Math.random()*confettiCanvas.height/2);
   }
 });
 
-// Surprise popup
 document.getElementById('revealBtn').addEventListener('click', ()=>{
   makeConfetti(confettiCanvas.width/2, confettiCanvas.height/3);
 
