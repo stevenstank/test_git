@@ -3,22 +3,22 @@ const FRIEND_NAME = 'Tanmay';
 const TIMELINE = [
   {
     date:'First Photo Together',
-    img:'',
+    img:'images/first_photo.jpeg',
     text:"Officially first hangout tha ye humara"
   },
   {
     date:'Our Son',
-    img:'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=800&auto=format&fit=crop',
+    img:'images/roberto.jpeg',
     text:'Roberto will always be in our hearts'
   },
   {
     date:'Pehli baar baarish mein bheegna',
-    img:'https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=800&auto=format&fit=crop',
+    img:'images/rain.jpeg',
     text:'The ice-cream was totally worth it'
   },
   {
     date:'First Allnighterrrrrrrr',
-    img:'https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=800&auto=format&fit=crop',
+    img:'images/allnighter.jpeg',
     text:'Kya crazy din tha bhaiiiii'
   }
 ];
