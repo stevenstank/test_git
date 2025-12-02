@@ -18,7 +18,7 @@ const TIMELINE = [
   },
   {
     date:'First Allnighterrrrrrrr',
-    img:'images/allnighter.jpeg',
+    img:'images/an.jpeg',
     text:'Kya crazy din tha bhaiiiii'
   }
 ];
