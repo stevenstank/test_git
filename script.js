@@ -22,6 +22,38 @@ const TIMELINE = [
     text:'Kya crazy din tha bhaiiiii'
   }
 ];
+// --- New Theme Toggle Logic ---
+
+const body = document.body;
+const themeToggleBtn = document.getElementById('themeToggleBtn');
+
+function setTheme(isLight) {
+    if (isLight) {
+        body.classList.add('light-mode');
+        themeToggleBtn.innerHTML = '🌙 Dark Mode';
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.classList.remove('light-mode');
+        themeToggleBtn.innerHTML = '☀️ Light Mode';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+// 1. Check for saved preference when the page loads
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === 'light') {
+    setTheme(true);
+} 
+// If nothing is saved, it defaults to Dark Mode (since that's the base CSS)
+
+// 2. Add event listener to the toggle button
+themeToggleBtn.addEventListener('click', () => {
+    // Check if light-mode is currently active, and toggle the opposite
+    const isCurrentlyLight = body.classList.contains('light-mode');
+    setTheme(!isCurrentlyLight);
+});
+
+// --- Place this code block at the beginning of your script.js (after your constant definitions) ---
 
 
 const name = document.getElementById('namePlace');
@@ -70,6 +102,7 @@ function buildTimeline(){
     timeline.appendChild(entry);
   });
 }
+
 
 buildTimeline();
 
@@ -149,3 +182,4 @@ document.getElementById('revealBtn').addEventListener('click', ()=>{
   document.body.appendChild(note);
   setTimeout(()=>note.remove(),3800);
 });
+

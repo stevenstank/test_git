@@ -3,6 +3,8 @@
   --card:#111;
   --accent:#f2c200;
   --text:#fff;
+  --timeline-line: #222;  /* Add this */
+  --entry-bg: #181818;
 }
 
 html,body{
@@ -12,6 +14,17 @@ html,body{
   color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
 }
+/* --- LIGHT MODE VARIABLES (Applied when body has the class "light-mode") --- */
+/* --- LIGHT MODE VARIABLES (Applied when body has the class "light-mode") --- */
+body.light-mode{
+  --bg: #f8f8f8;
+  --card: #ffffff;      /* White card background */
+  --text: #333333;
+  --accent: #d62828;--timeline-line: #cccccc; /* Lighter gray for the central timeline line */
+  --entry-bg: #e0e0e0;
+}
+
+
 
 header{
   padding:18px;
@@ -22,6 +35,7 @@ header{
   font-size:26px;
   color:var(--accent);
   margin:0;
+  color: var(--accent);
 }
 
 .lead{
@@ -44,6 +58,7 @@ header{
 .glow{
   background:var(--accent);
   color:#000;
+  background: var(--accent);
 }
 
 .ghost{
@@ -75,6 +90,8 @@ header{
   width:3px;
   height:100%;
   background:#222;
+  background: var(--timeline-line);
+  
 }
 
 .entry{
@@ -84,6 +101,7 @@ header{
   margin:18px 0;
   background:#181818;
   border-radius:10px;
+  background: var(--entry-bg)
 }
 
 .entry .polaroid{
@@ -91,6 +109,8 @@ header{
   padding:8px;
   border-radius:8px;
   border:1px solid #222;
+  background: var(--card); /* Ensures it looks good in light mode too */
+  border: 1px solid var(--timeline-line);
 }
 
 .entry img{
@@ -99,6 +119,7 @@ header{
   object-fit:cover;
   border-radius:6px;
   background:#222;
+  background: var(--timeline-line);
 }
 
 .entry .caption{
@@ -111,6 +132,7 @@ header{
   font-size:12px;
   color:#c9b158;
   margin-bottom:6px;
+  color: var(--accent);
 }
 
 .entry .tape{
