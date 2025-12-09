@@ -3,7 +3,7 @@
   --card:#111;
   --accent:#f2c200;
   --text:#fff;
-  --timeline-line: #222;  /* Add this */
+  --timeline-line: #222;
   --entry-bg: #181818;
 }
 
@@ -13,18 +13,17 @@ html,body{
   background:var(--bg);
   color:var(--text);
   font-family:Arial,Helvetica,sans-serif;
+  scroll-behavior: smooth;
 }
-/* --- LIGHT MODE VARIABLES (Applied when body has the class "light-mode") --- */
-/* --- LIGHT MODE VARIABLES (Applied when body has the class "light-mode") --- */
+
 body.light-mode{
   --bg: #f8f8f8;
-  --card: #ffffff;      /* White card background */
+  --card: #ffffff;
   --text: #333333;
-  --accent: #d62828;--timeline-line: #cccccc; /* Lighter gray for the central timeline line */
+  --accent: #d62828;
+  --timeline-line: #cccccc;
   --entry-bg: #e0e0e0;
 }
-
-
 
 header{
   padding:18px;
@@ -35,7 +34,6 @@ header{
   font-size:26px;
   color:var(--accent);
   margin:0;
-  color: var(--accent);
 }
 
 .lead{
@@ -58,7 +56,6 @@ header{
 .glow{
   background:var(--accent);
   color:#000;
-  background: var(--accent);
 }
 
 .ghost{
@@ -89,9 +86,7 @@ header{
   transform:translateX(-50%);
   width:3px;
   height:100%;
-  background:#222;
-  background: var(--timeline-line);
-  
+  background:var(--timeline-line);
 }
 
 .entry{
@@ -99,18 +94,40 @@ header{
   width:calc(50% - 40px);
   padding:10px;
   margin:18px 0;
-  background:#181818;
+  background:var(--entry-bg);
   border-radius:10px;
-  background: var(--entry-bg)
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.entry.visible{
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .entry .polaroid{
-  background:#0f0f0f;
+  background:var(--card);
   padding:8px;
   border-radius:8px;
-  border:1px solid #222;
-  background: var(--card); /* Ensures it looks good in light mode too */
   border: 1px solid var(--timeline-line);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.entry .polaroid:hover{
+  transform: translateY(-8px) rotate(2deg);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.4);
+}
+
+.entry .polaroid:active{
+  animation: shake 0.3s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateY(-8px) rotate(2deg); }
+  25% { transform: translateY(-8px) rotate(-3deg); }
+  75% { transform: translateY(-8px) rotate(3deg); }
 }
 
 .entry img{
@@ -118,8 +135,7 @@ header{
   height:160px;
   object-fit:cover;
   border-radius:6px;
-  background:#222;
-  background: var(--timeline-line);
+  background:var(--timeline-line);
 }
 
 .entry .caption{
@@ -128,11 +144,14 @@ header{
   color:#ddd;
 }
 
+body.light-mode .entry .caption{
+  color:#666;
+}
+
 .entry .date{
   font-size:12px;
-  color:#c9b158;
+  color:var(--accent);
   margin-bottom:6px;
-  color: var(--accent);
 }
 
 .entry .tape{
@@ -163,7 +182,6 @@ header{
 .left::after{ right:-6px; }
 .right::after{ left:-6px; }
 
-
 @media(max-width:720px){
   .timeline::before{ left:10px; transform:none; }
   .entry{ width:100%; left:0; margin-left:26px; }
@@ -178,10 +196,121 @@ footer{
   font-size:13px;
 }
 
-
 #confettiCanvas{
   position:fixed;
   inset:0;
   pointer-events:none;
   z-index:999;
+}
+
+.modal{
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 10000;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  animation: fadeIn 0.3s ease;
+}
+
+.modal.active{
+  display: flex;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.modal-content{
+  position: relative;
+  max-width: 800px;
+  max-height: 90vh;
+  background: var(--card);
+  border-radius: 16px;
+  padding: 24px;
+  animation: slideUp 0.4s ease;
+}
+
+@keyframes slideUp {
+  from { 
+    opacity: 0;
+    transform: translateY(50px) scale(0.9);
+  }
+  to { 
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.modal-content img{
+  width: 100%;
+  max-height: 60vh;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-close{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--accent);
+  color: #000;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.modal-close:hover{
+  transform: rotate(90deg);
+}
+
+.modal-text{
+  text-align: center;
+}
+
+.modal-text h3{
+  color: var(--accent);
+  margin: 0 0 8px 0;
+}
+
+.modal-text p{
+  color: var(--text);
+  margin: 0 0 16px 0;
+}
+
+.modal-nav{
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.modal-nav button{
+  background: var(--accent);
+  color: #000;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: opacity 0.2s ease;
+}
+
+.modal-nav button:hover{
+  opacity: 0.8;
+}
+
+.modal-nav button:disabled{
+  opacity: 0.3;
+  cursor: not-allowed;
 }

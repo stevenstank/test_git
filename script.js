@@ -1,4 +1,3 @@
-
 const FRIEND_NAME = 'Tanmay';
 const TIMELINE = [
   {
@@ -22,7 +21,6 @@ const TIMELINE = [
     text:'Kya crazy din tha bhaiiiii'
   }
 ];
-// --- New Theme Toggle Logic ---
 
 const body = document.body;
 const themeToggleBtn = document.getElementById('themeToggleBtn');
@@ -31,30 +29,22 @@ function setTheme(isLight) {
     if (isLight) {
         body.classList.add('light-mode');
         themeToggleBtn.innerHTML = '🌙 Dark Mode';
-        localStorage.setItem('theme', 'light');
     } else {
         body.classList.remove('light-mode');
         themeToggleBtn.innerHTML = '☀️ Light Mode';
-        localStorage.setItem('theme', 'dark');
     }
 }
 
-// 1. Check for saved preference when the page loads
 const savedTheme = localStorage.getItem('theme');
 if (savedTheme === 'light') {
     setTheme(true);
-} 
-// If nothing is saved, it defaults to Dark Mode (since that's the base CSS)
+}
 
-// 2. Add event listener to the toggle button
 themeToggleBtn.addEventListener('click', () => {
-    // Check if light-mode is currently active, and toggle the opposite
     const isCurrentlyLight = body.classList.contains('light-mode');
     setTheme(!isCurrentlyLight);
+    localStorage.setItem('theme', isCurrentlyLight ? 'dark' : 'light');
 });
-
-// --- Place this code block at the beginning of your script.js (after your constant definitions) ---
-
 
 const name = document.getElementById('namePlace');
 if(name) name.textContent = FRIEND_NAME;
@@ -70,29 +60,25 @@ function buildTimeline(){
     const side = (idx % 2 === 0) ? 'left' : 'right';
     const entry = document.createElement('div');
     entry.className = `entry ${side}`;
+    entry.dataset.index = idx;
 
-  
     const tape = document.createElement('div');
     tape.className = 'tape';
     entry.appendChild(tape);
 
-   
     const date = document.createElement('div');
     date.className = 'date';
     date.textContent = item.date;
     entry.appendChild(date);
 
-    
     const pol = document.createElement('div');
     pol.className = 'polaroid';
 
-  
     const im = document.createElement('img');
     im.src = item.img;
     im.alt = item.text;
     pol.appendChild(im);
 
-    
     const caption = document.createElement('div');
     caption.className = 'caption';
     caption.textContent = item.text;
@@ -100,12 +86,89 @@ function buildTimeline(){
 
     entry.appendChild(pol);
     timeline.appendChild(entry);
+    
+    pol.addEventListener('click', () => openModal(idx));
   });
+  
+  observeEntries();
 }
-
 
 buildTimeline();
 
+function observeEntries(){
+  const entries = document.querySelectorAll('.entry');
+  
+  const observer = new IntersectionObserver((items) => {
+    items.forEach(item => {
+      if(item.isIntersecting){
+        item.target.classList.add('visible');
+      }
+    });
+  }, {
+    threshold: 0.1,
+    rootMargin: '0px 0px -50px 0px'
+  });
+  
+  entries.forEach(entry => observer.observe(entry));
+}
+
+let currentIndex = 0;
+
+function openModal(index){
+  currentIndex = index;
+  updateModal();
+  document.getElementById('photoModal').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(){
+  document.getElementById('photoModal').classList.remove('active');
+  document.body.style.overflow = 'auto';
+}
+
+function updateModal(){
+  const item = TIMELINE[currentIndex];
+  document.getElementById('modalImg').src = item.img;
+  document.getElementById('modalDate').textContent = item.date;
+  document.getElementById('modalCaption').textContent = item.text;
+  
+  document.getElementById('prevBtn').disabled = currentIndex === 0;
+  document.getElementById('nextBtn').disabled = currentIndex === TIMELINE.length - 1;
+}
+
+document.getElementById('modalClose').addEventListener('click', closeModal);
+document.getElementById('photoModal').addEventListener('click', (e) => {
+  if(e.target.id === 'photoModal') closeModal();
+});
+
+document.getElementById('prevBtn').addEventListener('click', () => {
+  if(currentIndex > 0){
+    currentIndex--;
+    updateModal();
+  }
+});
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  if(currentIndex < TIMELINE.length - 1){
+    currentIndex++;
+    updateModal();
+  }
+});
+
+document.addEventListener('keydown', (e) => {
+  const modal = document.getElementById('photoModal');
+  if(!modal.classList.contains('active')) return;
+  
+  if(e.key === 'Escape') closeModal();
+  if(e.key === 'ArrowLeft' && currentIndex > 0){
+    currentIndex--;
+    updateModal();
+  }
+  if(e.key === 'ArrowRight' && currentIndex < TIMELINE.length - 1){
+    currentIndex++;
+    updateModal();
+  }
+});
 
 const confettiCanvas = document.getElementById('confettiCanvas');
 let ctx = confettiCanvas.getContext('2d');
@@ -156,7 +219,6 @@ function animate(){
 }
 animate();
 
-
 document.getElementById('confettiBtn').addEventListener('click', ()=>{
   for(let i=0;i<16;i++){
     makeConfetti(Math.random()*confettiCanvas.width, Math.random()*confettiCanvas.height/2);
@@ -182,4 +244,3 @@ document.getElementById('revealBtn').addEventListener('click', ()=>{
   document.body.appendChild(note);
   setTimeout(()=>note.remove(),3800);
 });
-
