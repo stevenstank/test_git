@@ -239,7 +239,7 @@ document.getElementById('revealBtn').addEventListener('click', () => {
   note.innerHTML = `
 <h3 style="margin:0;">🎁 Surprise!</h3>
 <p style="margin-top:8px;"> yr aap pls suprise hojao yr pls yr ❤️</p>
-<p style="margin-top:5px; font-weight:bold;">(Now click the "Go to the Real Surprise Now" button below!)</p>
+
 `;
 
   document.body.appendChild(note);
