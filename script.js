@@ -131,6 +131,7 @@ function updateModal() {
   document.getElementById('modalImg').src = item.img;
   document.getElementById('modalDate').textContent = item.date;
   document.getElementById('modalCaption').textContent = item.text;
+  document.getElementById('photoCounter').textContent = `Photo ${currentIndex + 1} of ${TIMELINE.length}`;
 
   document.getElementById('prevBtn').disabled = currentIndex === 0;
   document.getElementById('nextBtn').disabled = currentIndex === TIMELINE.length - 1;
@@ -141,32 +142,35 @@ document.getElementById('photoModal').addEventListener('click', (e) => {
   if (e.target.id === 'photoModal') closeModal();
 });
 
-document.getElementById('prevBtn').addEventListener('click', () => {
+function prevPhoto() {
   if (currentIndex > 0) {
     currentIndex--;
     updateModal();
   }
-});
+}
 
-document.getElementById('nextBtn').addEventListener('click', () => {
+function nextPhoto() {
   if (currentIndex < TIMELINE.length - 1) {
     currentIndex++;
     updateModal();
   }
-});
+}
+
+document.getElementById('prevBtn').addEventListener('click', prevPhoto);
+document.getElementById('nextBtn').addEventListener('click', nextPhoto);
 
 document.addEventListener('keydown', (e) => {
   const modal = document.getElementById('photoModal');
   if (!modal.classList.contains('active')) return;
 
   if (e.key === 'Escape') closeModal();
-  if (e.key === 'ArrowLeft' && currentIndex > 0) {
-    currentIndex--;
-    updateModal();
+  if (e.key === 'ArrowLeft') {
+    e.preventDefault();
+    prevPhoto();
   }
-  if (e.key === 'ArrowRight' && currentIndex < TIMELINE.length - 1) {
-    currentIndex++;
-    updateModal();
+  if (e.key === 'ArrowRight') {
+    e.preventDefault();
+    nextPhoto();
   }
 });
 
